@@ -40,7 +40,7 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchAll = useCallback(async () => {
     try {
-      const [configRes, slidesRes, articlesRes, aboutRes, sectorsRes, valuesRes, contactRes] = await Promise.all([
+      const [configRes, slidesRes, articlesRes, aboutRes, sectorsRes, valuesRes, contactRes, footerRes, footerLinksRes] = await Promise.all([
         supabase.from("site_config").select("*").limit(1).single(),
         supabase.from("hero_slides").select("*").order("sort_order"),
         supabase.from("articles").select("*").order("created_at", { ascending: false }),
@@ -48,6 +48,8 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
         supabase.from("about_sectors").select("*").order("sort_order"),
         supabase.from("about_values").select("*").order("sort_order"),
         supabase.from("contact_content").select("*").limit(1).single(),
+        supabase.from("footer_content").select("*").limit(1).single(),
+        supabase.from("footer_links").select("*").order("sort_order"),
       ]);
 
       setContent({
