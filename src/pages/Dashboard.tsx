@@ -7,6 +7,7 @@ import HeroSlidesManager from "@/components/dashboard/HeroSlidesManager";
 import ArticlesManager from "@/components/dashboard/ArticlesManager";
 import AboutEditor from "@/components/dashboard/AboutEditor";
 import ContactEditor from "@/components/dashboard/ContactEditor";
+import FooterEditor from "@/components/dashboard/FooterEditor";
 import { LogOut } from "lucide-react";
 
 const Dashboard = () => {
@@ -32,6 +33,7 @@ const Dashboard = () => {
       case "articles": return <ArticlesManager />;
       case "about": return <AboutEditor />;
       case "contact": return <ContactEditor />;
+      case "footer": return <FooterEditor />;
     }
   };
 

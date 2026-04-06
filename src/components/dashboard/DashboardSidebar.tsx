@@ -1,6 +1,6 @@
-import { Settings, Image, FileText, Users, Phone } from "lucide-react";
+import { Settings, Image, FileText, Users, Phone, PanelBottom } from "lucide-react";
 
-export type DashboardSection = "general" | "hero" | "articles" | "about" | "contact";
+export type DashboardSection = "general" | "hero" | "articles" | "about" | "contact" | "footer";
 
 const sections: { id: DashboardSection; label: string; icon: React.ElementType }[] = [
   { id: "general", label: "General", icon: Settings },
@@ -8,6 +8,7 @@ const sections: { id: DashboardSection; label: string; icon: React.ElementType }
   { id: "articles", label: "Articles", icon: FileText },
   { id: "about", label: "About Page", icon: Users },
   { id: "contact", label: "Contact Page", icon: Phone },
+  { id: "footer", label: "Footer", icon: PanelBottom },
 ];
 
 interface Props {
