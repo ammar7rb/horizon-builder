@@ -47,6 +47,7 @@ const ArticlesManager = () => {
       date: new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
       readTime: "3 min read",
       bannerImage: "",
+      bannerImages: [],
       content: "<p>Start writing your article here...</p>",
     };
     const slug = await addArticle(newArticle);
