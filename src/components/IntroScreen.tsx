@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import horizonIntroLogo from "@/assets/horizon-intro-logo.jpg";
+import horizonIntroLogo from "@/assets/horizon-intro-logo.png";
 
 const IntroScreen = ({ onFinished }: { onFinished: () => void }) => {
   const [fadeOut, setFadeOut] = useState(false);

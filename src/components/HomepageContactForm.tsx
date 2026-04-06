@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Mail } from "lucide-react";
+import { Mail, Send } from "lucide-react";
 import { useSiteContent } from "@/contexts/SiteContentContext";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 const HomepageContactForm = () => {
@@ -11,21 +12,26 @@ const HomepageContactForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!contact.email) {
-      toast.error("Contact email not configured");
+    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+      toast.error("Please fill in all fields");
       return;
     }
 
     setSending(true);
     try {
-      const mailtoLink = `mailto:${contact.email}?subject=New message from ${encodeURIComponent(form.name)}&body=${encodeURIComponent(
-        `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
-      )}`;
-      window.open(mailtoLink, "_blank");
-      toast.success("Opening your email client…");
+      const { error } = await supabase.functions.invoke("send-contact-email", {
+        body: {
+          name: form.name.trim(),
+          email: form.email.trim(),
+          message: form.message.trim(),
+        },
+      });
+
+      if (error) throw error;
+      toast.success("Message sent successfully!");
       setForm({ name: "", email: "", message: "" });
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Failed to send message. Please try again.");
     } finally {
       setSending(false);
     }
@@ -43,7 +49,7 @@ const HomepageContactForm = () => {
           </h2>
         </div>
 
-        <div className="ghost-border rounded-xl bg-surface-container-low p-8 md:p-12">
+        <div className="rounded-xl border border-outline-variant/20 bg-[#111111] p-8 md:p-12">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <input
@@ -52,7 +58,7 @@ const HomepageContactForm = () => {
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 required
-                className="h-10 px-4 bg-surface-container border border-outline-variant/30 rounded-xl font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+                className="h-11 px-4 bg-[#1a1a1a] border border-white/10 rounded-xl font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
               />
               <input
                 type="email"
@@ -60,7 +66,7 @@ const HomepageContactForm = () => {
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 required
-                className="h-10 px-4 bg-surface-container border border-outline-variant/30 rounded-xl font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+                className="h-11 px-4 bg-[#1a1a1a] border border-white/10 rounded-xl font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
               />
             </div>
             <textarea
@@ -69,23 +75,16 @@ const HomepageContactForm = () => {
               onChange={(e) => setForm({ ...form, message: e.target.value })}
               required
               rows={5}
-              className="w-full px-4 py-3 bg-surface-container border border-outline-variant/30 rounded-xl font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none"
+              className="w-full px-4 py-3 bg-[#1a1a1a] border border-white/10 rounded-xl font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none"
             />
-            <div className="flex items-center gap-3">
-              <button
-                type="submit"
-                disabled={sending}
-                className="h-11 px-8 bg-primary text-primary-foreground font-body text-xs tracking-wider uppercase rounded-xl hover:bg-primary/90 transition-all duration-300 disabled:opacity-50 flex items-center gap-2"
-              >
-                <Mail size={14} />
-                Send Message
-              </button>
-              {contact.email && (
-                <span className="font-body text-xs text-muted-foreground">
-                  → {contact.email}
-                </span>
-              )}
-            </div>
+            <button
+              type="submit"
+              disabled={sending}
+              className="h-11 px-8 bg-primary text-primary-foreground font-body text-xs tracking-wider uppercase rounded-xl hover:bg-primary/90 transition-all duration-300 disabled:opacity-50 flex items-center gap-2"
+            >
+              <Send size={14} />
+              {sending ? "Sending…" : "Send Message"}
+            </button>
           </form>
         </div>
       </div>
