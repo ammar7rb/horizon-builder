@@ -118,15 +118,33 @@ const ArticlesManager = () => {
             placeholder="Article excerpt" />
 
           <div className="space-y-2">
-            <label className="font-body text-sm text-muted-foreground">Banner Image</label>
-            <div className="flex gap-2">
-              <input type="file" accept="image/*"
-                onChange={(e) => e.target.files?.[0] && handleBannerUpload(editingSlug!, e.target.files[0])}
-                className="font-body text-sm text-muted-foreground" />
+            <label className="font-body text-sm text-muted-foreground">Banner Images (auto-rotate on article card)</label>
+            <div className="flex gap-2 flex-wrap">
+              {(editing.bannerImages || []).map((img, i) => (
+                <div key={i} className="relative w-24 h-16 rounded-lg overflow-hidden group/img">
+                  <img src={img} alt={`Banner ${i + 1}`} className="w-full h-full object-cover" />
+                  <button
+                    onClick={() => {
+                      const updated = [...(editing.bannerImages || [])];
+                      updated.splice(i, 1);
+                      updateArticle(editingSlug!, { bannerImages: updated });
+                    }}
+                    className="absolute inset-0 bg-black/60 opacity-0 group-hover/img:opacity-100 flex items-center justify-center text-white text-xs transition-opacity"
+                  >✕</button>
+                </div>
+              ))}
+              <label className="w-24 h-16 flex items-center justify-center border border-dashed border-outline-variant/40 rounded-lg cursor-pointer text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors text-xs">
+                + Add
+                <input type="file" accept="image/*" className="hidden"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const url = await uploadImage(file, "article-banners");
+                    const updated = [...(editing.bannerImages || []), url];
+                    await updateArticle(editingSlug!, { bannerImages: updated, bannerImage: updated[0] });
+                  }} />
+              </label>
             </div>
-            {editing.bannerImage && (
-              <img src={editing.bannerImage} alt="Banner" className="w-full h-40 object-cover rounded-lg mt-2" />
-            )}
           </div>
 
           <div className="space-y-2">
