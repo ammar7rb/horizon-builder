@@ -72,6 +72,7 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
           date: a.date,
           readTime: a.read_time,
           bannerImage: a.banner_image,
+          bannerImages: (a as any).banner_images || [],
           content: a.content,
         })) || defaultSiteContent.articles,
         about: aboutRes.data ? {
@@ -168,8 +169,8 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
     const { data } = await supabase.from("articles").insert({
       slug: article.slug, category: article.category, title: article.title,
       excerpt: article.excerpt, date: article.date, read_time: article.readTime,
-      banner_image: article.bannerImage, content: article.content,
-    }).select().single();
+      banner_image: article.bannerImage, banner_images: article.bannerImages || [], content: article.content,
+    } as any).select().single();
     const slug = data?.slug || article.slug;
     setContent((prev) => ({ ...prev, articles: [{ ...article, slug }, ...prev.articles] }));
     return slug;
@@ -184,6 +185,7 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
     if (fields.date !== undefined) mapped.date = fields.date;
     if (fields.readTime !== undefined) mapped.read_time = fields.readTime;
     if (fields.bannerImage !== undefined) mapped.banner_image = fields.bannerImage;
+    if (fields.bannerImages !== undefined) mapped.banner_images = fields.bannerImages;
     if (fields.content !== undefined) mapped.content = fields.content;
     await supabase.from("articles").update(mapped).eq("slug", slug);
     setContent((prev) => ({

@@ -12,6 +12,7 @@ export interface ArticleData {
   date: string;
   readTime: string;
   bannerImage: string;
+  bannerImages: string[];
   content: string;
 }
 

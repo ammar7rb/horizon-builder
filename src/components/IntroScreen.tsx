@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import horizonLogo from "@/assets/horizon-logo.jpg";
 
 const IntroScreen = ({ onFinished }: { onFinished: () => void }) => {
   const [fadeOut, setFadeOut] = useState(false);
@@ -24,9 +25,11 @@ const IntroScreen = ({ onFinished }: { onFinished: () => void }) => {
         fadeOut ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
-      <h1 className="fade-in font-headline text-2xl md:text-3xl font-light tracking-[0.2em] text-foreground mb-10 uppercase">
-        Horizon General Trading
-      </h1>
+      <img
+        src={horizonLogo}
+        alt="Horizon General Trading"
+        className="fade-in w-64 md:w-96 mb-10 object-contain"
+      />
 
       <div className="w-48 md:w-64 h-[1px] bg-outline-variant overflow-hidden rounded-full">
         <div className="loading-bar h-full bg-primary rounded-full" />

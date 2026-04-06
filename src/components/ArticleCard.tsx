@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import type { ArticleData } from "@/data/siteContent";
@@ -14,14 +15,37 @@ const categoryColors: Record<string, string> = {
 const ArticleCard = ({ article }: { article: ArticleData }) => {
   const gradient = categoryColors[article.category] || "from-primary/20 to-primary/5";
 
+  // Combine bannerImage + bannerImages into one array
+  const allImages = [
+    ...(article.bannerImage ? [article.bannerImage] : []),
+    ...(article.bannerImages || []),
+  ].filter((img, i, arr) => img && arr.indexOf(img) === i); // dedupe
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (allImages.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % allImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [allImages.length]);
+
   return (
     <article className="group ghost-border rounded-xl bg-surface-container-low overflow-hidden flex flex-col transition-all duration-300 hover:bg-surface-container">
       {/* Banner */}
       <div className={`h-32 md:h-36 bg-gradient-to-br ${gradient} relative flex items-end p-5 overflow-hidden`}>
-        {article.bannerImage && (
-          <img src={article.bannerImage} alt={article.title} className="absolute inset-0 w-full h-full object-cover" />
-        )}
-        <span className="relative font-body text-[10px] tracking-[0.2em] uppercase text-foreground/70 bg-background/30 backdrop-blur-sm px-3 py-1 rounded-full">
+        {allImages.map((img, i) => (
+          <img
+            key={img}
+            src={img}
+            alt={article.title}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+              i === currentIndex ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        ))}
+        <span className="relative z-10 font-body text-[10px] tracking-[0.2em] uppercase text-foreground/70 bg-background/30 backdrop-blur-sm px-3 py-1 rounded-full">
           {article.category}
         </span>
       </div>
