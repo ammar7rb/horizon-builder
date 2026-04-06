@@ -2,6 +2,11 @@ import { useState, useCallback } from "react";
 import IntroScreen from "@/components/IntroScreen";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import StrategicSection from "@/components/StrategicSection";
+import QuoteSection from "@/components/QuoteSection";
+import StatsSection from "@/components/StatsSection";
+import CTASection from "@/components/CTASection";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   const [introFinished, setIntroFinished] = useState(false);
@@ -21,13 +26,11 @@ const Index = () => {
       >
         <Navbar />
         <HeroSection />
-
-        {/* Placeholder for Phase 3+ sections */}
-        <div className="h-screen flex items-center justify-center">
-          <p className="font-headline text-muted-foreground/50 text-sm tracking-wide">
-            More sections coming in next phases
-          </p>
-        </div>
+        <StrategicSection />
+        <QuoteSection />
+        <StatsSection />
+        <CTASection />
+        <Footer />
       </div>
     </>
   );
