@@ -1,16 +1,31 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useCallback } from "react";
+import IntroScreen from "@/components/IntroScreen";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const [introFinished, setIntroFinished] = useState(false);
+
+  const handleIntroFinished = useCallback(() => {
+    setIntroFinished(true);
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
-    </div>
+    <>
+      {!introFinished && <IntroScreen onFinished={handleIntroFinished} />}
+
+      <div
+        className={`min-h-screen bg-background transition-opacity duration-700 ${
+          introFinished ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        {/* Hero section will be added in Phase 2 */}
+        <div className="flex items-center justify-center min-h-screen">
+          <p className="font-headline text-muted-foreground text-lg tracking-wide">
+            Phase 2: Hero Section — Coming Next
+          </p>
+        </div>
+      </div>
+    </>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
