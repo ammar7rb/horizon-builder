@@ -14,7 +14,219 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      about_content: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          mission_text: string
+          mission_text2: string
+          mission_title: string
+          tagline: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          id?: string
+          mission_text?: string
+          mission_text2?: string
+          mission_title?: string
+          tagline?: string
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          mission_text?: string
+          mission_text2?: string
+          mission_title?: string
+          tagline?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      about_sectors: {
+        Row: {
+          description: string
+          icon: string
+          id: string
+          name: string
+          sort_order: number
+        }
+        Insert: {
+          description?: string
+          icon?: string
+          id?: string
+          name: string
+          sort_order?: number
+        }
+        Update: {
+          description?: string
+          icon?: string
+          id?: string
+          name?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      about_values: {
+        Row: {
+          id: string
+          sort_order: number
+          text: string
+          title: string
+        }
+        Insert: {
+          id?: string
+          sort_order?: number
+          text?: string
+          title: string
+        }
+        Update: {
+          id?: string
+          sort_order?: number
+          text?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      articles: {
+        Row: {
+          banner_image: string
+          category: string
+          content: string
+          created_at: string
+          date: string
+          excerpt: string
+          id: string
+          read_time: string
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          banner_image?: string
+          category?: string
+          content?: string
+          created_at?: string
+          date?: string
+          excerpt?: string
+          id?: string
+          read_time?: string
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          banner_image?: string
+          category?: string
+          content?: string
+          created_at?: string
+          date?: string
+          excerpt?: string
+          id?: string
+          read_time?: string
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      contact_content: {
+        Row: {
+          availability: string
+          created_at: string
+          description: string
+          email: string
+          id: string
+          office: string
+          tagline: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          availability?: string
+          created_at?: string
+          description?: string
+          email?: string
+          id?: string
+          office?: string
+          tagline?: string
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          availability?: string
+          created_at?: string
+          description?: string
+          email?: string
+          id?: string
+          office?: string
+          tagline?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      hero_slides: {
+        Row: {
+          created_at: string
+          id: string
+          image: string
+          label: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image: string
+          label?: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image?: string
+          label?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      site_config: {
+        Row: {
+          created_at: string
+          favicon: string
+          id: string
+          logo_image: string
+          logo_text: string
+          logo_type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          favicon?: string
+          id?: string
+          logo_image?: string
+          logo_text?: string
+          logo_type?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          favicon?: string
+          id?: string
+          logo_image?: string
+          logo_text?: string
+          logo_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
