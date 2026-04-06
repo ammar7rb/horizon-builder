@@ -18,6 +18,10 @@ interface SiteContentContextType {
   removeSector: (id: string) => Promise<void>;
   updateValue: (id: string, fields: { title?: string; text?: string }) => Promise<void>;
   updateContact: (fields: Partial<ContactContent>) => Promise<void>;
+  updateFooter: (fields: Partial<FooterContent>) => Promise<void>;
+  addFooterLink: (link: { label: string; url: string }) => Promise<void>;
+  updateFooterLink: (id: string, fields: Partial<FooterLink>) => Promise<void>;
+  removeFooterLink: (id: string) => Promise<void>;
   uploadImage: (file: File, path: string) => Promise<string>;
   refreshContent: () => Promise<void>;
 }
