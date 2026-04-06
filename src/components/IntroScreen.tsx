@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import horizonLogo from "@/assets/horizon-logo.png";
+import horizonIntroLogo from "@/assets/horizon-intro-logo.jpg";
 
 const IntroScreen = ({ onFinished }: { onFinished: () => void }) => {
   const [fadeOut, setFadeOut] = useState(false);
@@ -21,21 +21,18 @@ const IntroScreen = ({ onFinished }: { onFinished: () => void }) => {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-background transition-opacity duration-700 ${
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center transition-opacity duration-700 ${
         fadeOut ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
+      style={{ backgroundColor: "#000000" }}
     >
       <img
-        src={horizonLogo}
+        src={horizonIntroLogo}
         alt="Horizon"
-        className="fade-in w-48 md:w-72 mb-3 object-contain"
+        className="fade-in w-72 md:w-[500px] object-contain"
       />
 
-      <h1 className="fade-in font-headline text-base md:text-lg font-light tracking-[0.25em] text-foreground/80 mb-10 uppercase">
-        General Trading
-      </h1>
-
-      <div className="w-48 md:w-64 h-[1px] bg-outline-variant overflow-hidden rounded-full">
+      <div className="w-48 md:w-64 h-[1px] bg-outline-variant overflow-hidden rounded-full mt-10">
         <div className="loading-bar h-full bg-primary rounded-full" />
       </div>
     </div>
