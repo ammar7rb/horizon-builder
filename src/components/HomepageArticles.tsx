@@ -5,7 +5,7 @@ import { useSiteContent } from "@/contexts/SiteContentContext";
 
 const HomepageArticles = () => {
   const { content } = useSiteContent();
-  const latestArticles = content.articles.slice(0, 3);
+  const latestArticles = content.articles.filter((a) => a.title && a.title !== "New Article").slice(0, 3);
 
   return (
     <section className="py-24 px-6 md:px-10">

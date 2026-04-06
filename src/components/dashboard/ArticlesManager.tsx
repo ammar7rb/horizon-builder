@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useSiteContent } from "@/contexts/SiteContentContext";
 import { Plus, Trash2, Edit, ArrowLeft } from "lucide-react";
 import ArticleEditor from "./ArticleEditor";
@@ -8,6 +8,29 @@ const categories = ["Logistics & Supply", "Energy Sector", "Corporate Strategy",
 
 const generateSlug = (title: string) =>
   title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+// Debounced input that only calls onChange after user stops typing
+const DebouncedInput = ({ value, onChange, className, placeholder, as = "input", rows }: {
+  value: string; onChange: (v: string) => void; className?: string; placeholder?: string; as?: "input" | "textarea"; rows?: number;
+}) => {
+  const [local, setLocal] = useState(value);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => { setLocal(value); }, [value]);
+
+  const handleChange = (v: string) => {
+    setLocal(v);
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => onChange(v), 600);
+  };
+
+  useEffect(() => () => clearTimeout(timerRef.current), []);
+
+  if (as === "textarea") {
+    return <textarea value={local} onChange={(e) => handleChange(e.target.value)} className={className} placeholder={placeholder} rows={rows} />;
+  }
+  return <input value={local} onChange={(e) => handleChange(e.target.value)} className={className} placeholder={placeholder} />;
+};
 
 const ArticlesManager = () => {
   const { content, addArticle, updateArticle, deleteArticle, uploadImage } = useSiteContent();
@@ -70,8 +93,8 @@ const ArticlesManager = () => {
         </button>
 
         <div className="space-y-4">
-          <input value={editing.title}
-            onChange={(e) => handleUpdate(editingSlug!, "title", e.target.value)}
+          <DebouncedInput value={editing.title}
+            onChange={(v) => handleUpdate(editingSlug!, "title", v)}
             className="w-full h-12 px-4 bg-surface-container border border-outline-variant/30 rounded-lg font-headline text-lg text-foreground focus:outline-none focus:border-primary/50"
             placeholder="Article title" />
 
@@ -81,15 +104,15 @@ const ArticlesManager = () => {
               className="h-10 px-3 bg-surface-container border border-outline-variant/30 rounded-lg font-body text-sm text-foreground focus:outline-none focus:border-primary/50">
               {categories.map((c) => (<option key={c} value={c}>{c}</option>))}
             </select>
-            <input value={editing.readTime}
-              onChange={(e) => handleUpdate(editingSlug!, "readTime", e.target.value)}
+            <DebouncedInput value={editing.readTime}
+              onChange={(v) => handleUpdate(editingSlug!, "readTime", v)}
               className="h-10 px-3 bg-surface-container border border-outline-variant/30 rounded-lg font-body text-sm text-foreground focus:outline-none focus:border-primary/50"
               placeholder="Read time" />
           </div>
 
-          <textarea value={editing.excerpt}
-            onChange={(e) => handleUpdate(editingSlug!, "excerpt", e.target.value)}
-            rows={3}
+          <DebouncedInput value={editing.excerpt}
+            onChange={(v) => handleUpdate(editingSlug!, "excerpt", v)}
+            as="textarea" rows={3}
             className="w-full px-4 py-3 bg-surface-container border border-outline-variant/30 rounded-lg font-body text-sm text-foreground focus:outline-none focus:border-primary/50 resize-none"
             placeholder="Article excerpt" />
 
