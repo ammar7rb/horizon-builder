@@ -101,6 +101,10 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
           office: contactRes.data.office,
           availability: contactRes.data.availability,
         } : defaultSiteContent.contact,
+        footer: {
+          copyrightText: footerRes.data?.copyright_text || defaultSiteContent.footer.copyrightText,
+          links: footerLinksRes.data?.map((l) => ({ id: l.id, label: l.label, url: l.url })) || [],
+        },
       });
     } catch (err) {
       console.error("Failed to fetch site content:", err);
