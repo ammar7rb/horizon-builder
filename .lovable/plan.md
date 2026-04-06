@@ -1,126 +1,139 @@
 
 
-# Horizon General Trading — Full Implementation Plan
-
-## Overview
-A premium dark-mode-only corporate website for Horizon General Trading. Built with React + Tailwind CSS, using Manrope (headlines) and Inter (body) fonts. The site presents articles in a minimal, professional layout.
+# خطة التنفيذ — Hero Slider + Dashboard إدارة المحتوى
 
 ---
 
-## Phase 1: Foundation + Intro/Loading Screen
+## المرحلة 1: Hero Section مع Slider صور
 
-**Design System Setup:**
-- Update `tailwind.config.ts` with full Horizon color palette (surface: `#0e0e0e`, primary: `#89ceff`, outline: `#767575`, etc.)
-- Add Manrope + Inter fonts via `index.html`
-- Set `<html class="dark">` permanently, update `index.css` with dark-only variables
-- Remove default `App.css` styles
+**الهدف:** تحويل الـ Hero من خلفية ثابتة إلى سلايدر صور يعرض قطاعات الشركة (طيران، بترول، اتصالات، تعدين) مع طبقة blur/overlay فوق الصور.
 
-**Intro Screen Component:**
-- Full-screen dark background (`#0e0e0e`)
-- Centered "Horizon General Trading" text in Manrope
-- Subtle horizontal loading bar (primary blue, ~3-4s animation)
-- Fade-out transition → reveals main content
-- State managed in `Index.tsx` with `useState`/`useEffect`
+**التنفيذ:**
+- استخدام صور من Unsplash (مجانية) لكل قطاع كخلفيات
+- إضافة auto-play slider يتبدل كل 5 ثوانٍ مع transition ناعم (fade)
+- طبقة `bg-black/60 backdrop-blur-sm` فوق الصور لإظهار النصوص بوضوح
+- مؤشرات (dots) صغيرة أسفل الـ Hero لإظهار الشريحة الحالية
+- حفظ بيانات السلايدر (صور + عناوين) في ملف بيانات مشترك تقدر الداشبورد تعدل عليه
 
-**Files:** `index.html`, `tailwind.config.ts`, `src/index.css`, `src/App.css`, `src/components/IntroScreen.tsx`, `src/pages/Index.tsx`
+**الملفات:** `src/data/siteContent.ts` (جديد), `src/components/HeroSection.tsx` (تعديل)
 
 ---
 
-## Phase 2: Navigation + Hero Section
+## المرحلة 2: نظام بيانات مركزي للمحتوى
 
-**Navigation Bar:**
-- Fixed top navbar with "Horizon General Trading" logo on left
-- Links: Home, Articles, About, Contact
-- "Connect" button (primary styled)
-- Transparent background, blur effect on scroll
-- Mobile hamburger menu
+**الهدف:** إنشاء ملف بيانات مركزي يتحكم في كل محتوى الموقع (يُعدَّل من الداشبورد).
 
-**Hero Section:**
-- Full-viewport height dark section with subtle radial glow effect
-- Large headline: "Industrial Stability. Ethereal Motion." in Manrope
-- Subtitle paragraph in Inter
-- Two CTA buttons: "Explore Ventures" + "Our Portfolio"
-- "Scroll" indicator at bottom
-- Smooth fade-in animations on load
+**البيانات تشمل:**
+- **Site Config:** اسم اللوجو (نص أو صورة URL)، أيقونة التبويب (favicon)
+- **Hero Slides:** صورة + عنوان لكل شريحة
+- **Articles:** عنوان، excerpt، محتوى كامل (rich text بسيط)، صورة بانر، تصنيف القطاع
+- **About Page:** نص المقدمة، المهمة، القطاعات، القيم
+- **Contact Page:** بيانات التواصل (إيميل، عنوان، ساعات العمل)
 
-**Files:** `src/components/Navbar.tsx`, `src/components/HeroSection.tsx`, `src/pages/Index.tsx`
+**الملفات:** `src/data/siteContent.ts` (جديد), `src/contexts/SiteContentContext.tsx` (جديد)
 
 ---
 
-## Phase 3: Articles Cards Section
+## المرحلة 3: Dashboard — الهيكل الأساسي
 
-**Articles Page:**
-- "Knowledge Hub" heading with subtitle
-- Grid layout (responsive: 1 col mobile, 2-3 cols desktop)
-- Each card: category tag, title, description, "READ MORE" link
-- Ghost border styling, subtle hover effects
-- Newsletter subscription section at bottom
+**الهدف:** بناء صفحة داشبورد على route `/dashboard` بدون تسجيل دخول (حسب طلبك).
 
-**Article Data:**
-- Static article data in a `src/data/articles.ts` file
-- 3 sample articles (Logistics, Energy, Corporate Strategy) matching the design
+**التصميم:**
+- Sidebar يسار فيه أقسام: General، Hero Slides، Articles، About، Contact
+- المحتوى يمين حسب القسم المختار
+- تصميم dark متوافق مع باقي الموقع
+- الداشبورد تستخدم `localStorage` لحفظ التعديلات (بدون backend)
 
-**Files:** `src/data/articles.ts`, `src/components/ArticleCard.tsx`, `src/pages/Articles.tsx`, `src/App.tsx` (add route)
+**الملفات:** `src/pages/Dashboard.tsx`, `src/components/dashboard/DashboardSidebar.tsx`, `src/App.tsx` (إضافة route)
 
 ---
 
-## Phase 4: Article Details Page
+## المرحلة 4: Dashboard — قسم General (لوجو + Favicon)
 
-**Article Detail View:**
-- Dynamic route `/articles/:slug`
-- Large featured image area
-- Category tag + date metadata
-- Article title in large Manrope heading
-- Clean readable body text in Inter
-- Back navigation
-- Related articles suggestion at bottom
+**الميزات:**
+- اختيار نوع اللوجو: نص أو صورة (رفع صورة)
+- تعديل نص اللوجو
+- رفع أيقونة التبويب (favicon)
+- معاينة مباشرة للتغييرات
 
-**Files:** `src/pages/ArticleDetail.tsx`, `src/App.tsx` (add route)
+**الملفات:** `src/components/dashboard/GeneralSettings.tsx`
 
 ---
 
-## Phase 5: Supporting Sections + Final Polish
+## المرحلة 5: Dashboard — إدارة Hero Slides
 
-**Homepage Additional Sections (from design):**
-- "Strategic Framework" section with icon cards (Structural Integrity, Global Network, Rapid Execution)
-- Stats section (12B+ Asset Volume, 45 Partner Nations, etc.)
-- "Ready to expand your reach?" CTA section
-- Corporate quote block
+**الميزات:**
+- عرض الشرائح الحالية مع معاينة مصغرة
+- إضافة/حذف/ترتيب شرائح
+- لكل شريحة: رفع صورة + عنوان فرعي اختياري
 
-**Footer:**
-- "Horizon General Trading" branding
-- LinkedIn link, Privacy Policy, Terms of Service
-- Copyright notice
-
-**Final Polish:**
-- Responsive testing and fixes (mobile, tablet, desktop)
-- Smooth scroll behavior
-- Performance optimization (lazy loading, proper image handling)
-- Clean meta tags for SEO
-- Production-ready structure for domain deployment
-
-**Files:** `src/components/StrategicSection.tsx`, `src/components/StatsSection.tsx`, `src/components/CTASection.tsx`, `src/components/Footer.tsx`, various page updates
+**الملفات:** `src/components/dashboard/HeroSlidesManager.tsx`
 
 ---
 
-## Route Structure
+## المرحلة 6: Dashboard — إدارة المقالات (محرر Rich Text)
+
+**الميزات:**
+- قائمة المقالات الحالية مع إمكانية التعديل/الحذف
+- إضافة مقال جديد:
+  - عنوان، excerpt، تصنيف (طيران/بترول/تعدين/اتصالات)
+  - صورة بانر للمقال
+  - **محرر محتوى** يدعم: H1, H2, H3، فقرات، bold/italic، إدراج صور في المحتوى
+  - سيتم استخدام مكتبة `tiptap` (محرر rich text خفيف لـ React)
+- معاينة المقال قبل الحفظ
+
+**الملفات:** `src/components/dashboard/ArticlesManager.tsx`, `src/components/dashboard/ArticleEditor.tsx`
+
+---
+
+## المرحلة 7: Dashboard — تعديل About و Contact
+
+**About:**
+- تعديل عنوان الصفحة والوصف
+- تعديل نص المهمة
+- إضافة/تعديل القطاعات
+- تعديل القيم
+
+**Contact:**
+- تعديل بيانات التواصل (إيميل، عنوان، ساعات العمل)
+- تعديل نص الترحيب
+
+**الملفات:** `src/components/dashboard/AboutEditor.tsx`, `src/components/dashboard/ContactEditor.tsx`
+
+---
+
+## المرحلة 8: ربط الداشبورد بالموقع
+
+**الهدف:** جعل كل صفحات الموقع تقرأ من البيانات المحفوظة في localStorage (عبر Context).
+
+- الـ Navbar يعرض اللوجو حسب الإعداد (نص/صورة)
+- الـ Hero يعرض السلايدر من البيانات المحفوظة
+- المقالات تُقرأ من البيانات المعدلة
+- About و Contact يعرضون المحتوى المحدث
+- تحديث الـ favicon ديناميكياً
+
+---
+
+## ملاحظات تقنية
+
+- **التخزين:** `localStorage` — بدون backend أو تسجيل دخول
+- **محرر النصوص:** مكتبة `tiptap` (خفيفة، تدعم headings + صور + formatting)
+- **الصور:** تُحفظ كـ base64 في localStorage (مناسب للاستخدام البسيط)
+- **لا يظهر رابط الداشبورد في الـ Navbar** — الوصول فقط عبر URL مباشر `/dashboard`
+
+---
+
+## ترتيب التنفيذ
 ```text
-/              → Home (Intro → Hero → Sections → Footer)
-/articles      → Articles listing page
-/articles/:slug → Article detail page
-*              → 404 Not Found
+المرحلة 1 → Hero Slider
+المرحلة 2 → نظام البيانات المركزي
+المرحلة 3 → هيكل الداشبورد
+المرحلة 4 → General Settings
+المرحلة 5 → Hero Slides Manager
+المرحلة 6 → Articles Manager + Rich Editor
+المرحلة 7 → About + Contact Editors
+المرحلة 8 → ربط كل شيء ببعض
 ```
 
-## Color Tokens (Key)
-```text
-Background:  #0e0e0e
-Surface:     #191a1a
-Primary:     #89ceff
-On-Surface:  #e7e5e4
-Outline:     #767575
-```
-
----
-
-After your approval, I will start implementing **Phase 1** (Foundation + Intro Screen).
+بعد موافقتك أبدأ بالمرحلة الأولى (Hero Slider).
 
