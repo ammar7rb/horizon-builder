@@ -2,8 +2,9 @@ import { useState, useCallback } from "react";
 import IntroScreen from "@/components/IntroScreen";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import StrategicSection from "@/components/StrategicSection";
 import HomepageArticles from "@/components/HomepageArticles";
+import HomepageContactForm from "@/components/HomepageContactForm";
+import StrategicSection from "@/components/StrategicSection";
 import QuoteSection from "@/components/QuoteSection";
 import StatsSection from "@/components/StatsSection";
 import CTASection from "@/components/CTASection";
@@ -27,8 +28,9 @@ const Index = () => {
       >
         <Navbar />
         <HeroSection />
-        <StrategicSection />
         <HomepageArticles />
+        <HomepageContactForm />
+        <StrategicSection />
         <QuoteSection />
         <StatsSection />
         <CTASection />
