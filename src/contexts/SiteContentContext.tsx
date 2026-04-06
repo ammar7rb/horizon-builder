@@ -169,8 +169,8 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
     const { data } = await supabase.from("articles").insert({
       slug: article.slug, category: article.category, title: article.title,
       excerpt: article.excerpt, date: article.date, read_time: article.readTime,
-      banner_image: article.bannerImage, content: article.content,
-    }).select().single();
+      banner_image: article.bannerImage, banner_images: article.bannerImages || [], content: article.content,
+    } as any).select().single();
     const slug = data?.slug || article.slug;
     setContent((prev) => ({ ...prev, articles: [{ ...article, slug }, ...prev.articles] }));
     return slug;
