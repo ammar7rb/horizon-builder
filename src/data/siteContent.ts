@@ -59,11 +59,6 @@ export interface SiteConfig {
   logoImage: string;
   favicon: string;
 }
-  logoType: "text" | "image";
-  logoText: string;
-  logoImage: string;
-  favicon: string;
-}
 
 export interface SiteContent {
   config: SiteConfig;
