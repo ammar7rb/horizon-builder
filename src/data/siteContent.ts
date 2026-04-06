@@ -42,7 +42,23 @@ export interface ContactContent {
   availability: string;
 }
 
+export interface FooterLink {
+  id?: string;
+  label: string;
+  url: string;
+}
+
+export interface FooterContent {
+  copyrightText: string;
+  links: FooterLink[];
+}
+
 export interface SiteConfig {
+  logoType: "text" | "image";
+  logoText: string;
+  logoImage: string;
+  favicon: string;
+}
   logoType: "text" | "image";
   logoText: string;
   logoImage: string;
@@ -55,6 +71,7 @@ export interface SiteContent {
   articles: ArticleData[];
   about: AboutContent;
   contact: ContactContent;
+  footer: FooterContent;
 }
 
 export const defaultSiteContent: SiteContent = {
@@ -83,5 +100,9 @@ export const defaultSiteContent: SiteContent = {
     email: "",
     office: "",
     availability: "",
+  },
+  footer: {
+    copyrightText: "© 2024 Horizon General Trading. All rights reserved.",
+    links: [],
   },
 };
