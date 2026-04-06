@@ -1,5 +1,7 @@
 import { useState, useCallback } from "react";
 import IntroScreen from "@/components/IntroScreen";
+import Navbar from "@/components/Navbar";
+import HeroSection from "@/components/HeroSection";
 
 const Index = () => {
   const [introFinished, setIntroFinished] = useState(false);
@@ -17,10 +19,13 @@ const Index = () => {
           introFinished ? "opacity-100" : "opacity-0"
         }`}
       >
-        {/* Hero section will be added in Phase 2 */}
-        <div className="flex items-center justify-center min-h-screen">
-          <p className="font-headline text-muted-foreground text-lg tracking-wide">
-            Phase 2: Hero Section — Coming Next
+        <Navbar />
+        <HeroSection />
+
+        {/* Placeholder for Phase 3+ sections */}
+        <div className="h-screen flex items-center justify-center">
+          <p className="font-headline text-muted-foreground/50 text-sm tracking-wide">
+            More sections coming in next phases
           </p>
         </div>
       </div>
