@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { defaultSiteContent, type SiteContent, type HeroSlide, type ArticleData, type SectorData, type AboutContent, type ContactContent, type SiteConfig } from "@/data/siteContent";
+import { defaultSiteContent, type SiteContent, type HeroSlide, type ArticleData, type SectorData, type AboutContent, type ContactContent, type SiteConfig, type FooterLink, type FooterContent } from "@/data/siteContent";
 
 interface SiteContentContextType {
   content: SiteContent;
@@ -18,6 +18,10 @@ interface SiteContentContextType {
   removeSector: (id: string) => Promise<void>;
   updateValue: (id: string, fields: { title?: string; text?: string }) => Promise<void>;
   updateContact: (fields: Partial<ContactContent>) => Promise<void>;
+  updateFooter: (fields: Partial<FooterContent>) => Promise<void>;
+  addFooterLink: (link: { label: string; url: string }) => Promise<void>;
+  updateFooterLink: (id: string, fields: Partial<FooterLink>) => Promise<void>;
+  removeFooterLink: (id: string) => Promise<void>;
   uploadImage: (file: File, path: string) => Promise<string>;
   refreshContent: () => Promise<void>;
 }
@@ -36,7 +40,7 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchAll = useCallback(async () => {
     try {
-      const [configRes, slidesRes, articlesRes, aboutRes, sectorsRes, valuesRes, contactRes] = await Promise.all([
+      const [configRes, slidesRes, articlesRes, aboutRes, sectorsRes, valuesRes, contactRes, footerRes, footerLinksRes] = await Promise.all([
         supabase.from("site_config").select("*").limit(1).single(),
         supabase.from("hero_slides").select("*").order("sort_order"),
         supabase.from("articles").select("*").order("created_at", { ascending: false }),
@@ -44,6 +48,8 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
         supabase.from("about_sectors").select("*").order("sort_order"),
         supabase.from("about_values").select("*").order("sort_order"),
         supabase.from("contact_content").select("*").limit(1).single(),
+        supabase.from("footer_content").select("*").limit(1).single(),
+        supabase.from("footer_links").select("*").order("sort_order"),
       ]);
 
       setContent({
@@ -95,6 +101,10 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
           office: contactRes.data.office,
           availability: contactRes.data.availability,
         } : defaultSiteContent.contact,
+        footer: {
+          copyrightText: footerRes.data?.copyright_text || defaultSiteContent.footer.copyrightText,
+          links: footerLinksRes.data?.map((l) => ({ id: l.id, label: l.label, url: l.url })) || [],
+        },
       });
     } catch (err) {
       console.error("Failed to fetch site content:", err);
@@ -240,12 +250,38 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
     if (existing) await supabase.from("contact_content").update(fields).eq("id", existing.id);
     setContent((prev) => ({ ...prev, contact: { ...prev.contact, ...fields } }));
   }, []);
+  const updateFooter = useCallback(async (fields: Partial<FooterContent>) => {
+    if (fields.copyrightText !== undefined) {
+      const { data: existing } = await supabase.from("footer_content").select("id").limit(1).single();
+      if (existing) await supabase.from("footer_content").update({ copyright_text: fields.copyrightText }).eq("id", existing.id);
+    }
+    setContent((prev) => ({ ...prev, footer: { ...prev.footer, ...fields } }));
+  }, []);
+
+  const addFooterLink = useCallback(async (link: { label: string; url: string }) => {
+    const maxOrder = content.footer.links.length;
+    const { data } = await supabase.from("footer_links").insert({ label: link.label, url: link.url, sort_order: maxOrder }).select().single();
+    if (data) {
+      setContent((prev) => ({ ...prev, footer: { ...prev.footer, links: [...prev.footer.links, { id: data.id, label: data.label, url: data.url }] } }));
+    }
+  }, [content.footer.links.length]);
+
+  const updateFooterLink = useCallback(async (id: string, fields: Partial<FooterLink>) => {
+    await supabase.from("footer_links").update(fields).eq("id", id);
+    setContent((prev) => ({ ...prev, footer: { ...prev.footer, links: prev.footer.links.map((l) => l.id === id ? { ...l, ...fields } : l) } }));
+  }, []);
+
+  const removeFooterLink = useCallback(async (id: string) => {
+    await supabase.from("footer_links").delete().eq("id", id);
+    setContent((prev) => ({ ...prev, footer: { ...prev.footer, links: prev.footer.links.filter((l) => l.id !== id) } }));
+  }, []);
 
   return (
     <SiteContentContext.Provider value={{
       content, loading, updateConfig, addHeroSlide, updateHeroSlide, removeHeroSlide,
       addArticle, updateArticle, deleteArticle, updateAbout, addSector, updateSector, removeSector,
-      updateValue, updateContact, uploadImage, refreshContent: fetchAll,
+      updateValue, updateContact, updateFooter, addFooterLink, updateFooterLink, removeFooterLink,
+      uploadImage, refreshContent: fetchAll,
     }}>
       {children}
     </SiteContentContext.Provider>
