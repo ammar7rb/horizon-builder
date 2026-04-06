@@ -1,0 +1,1 @@
+ALTER TABLE public.articles ADD COLUMN banner_images text[] DEFAULT '{}'::text[];

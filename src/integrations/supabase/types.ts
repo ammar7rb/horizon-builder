@@ -98,6 +98,7 @@ export type Database = {
       articles: {
         Row: {
           banner_image: string
+          banner_images: string[] | null
           category: string
           content: string
           created_at: string
@@ -111,6 +112,7 @@ export type Database = {
         }
         Insert: {
           banner_image?: string
+          banner_images?: string[] | null
           category?: string
           content?: string
           created_at?: string
@@ -124,6 +126,7 @@ export type Database = {
         }
         Update: {
           banner_image?: string
+          banner_images?: string[] | null
           category?: string
           content?: string
           created_at?: string
