@@ -250,12 +250,38 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
     if (existing) await supabase.from("contact_content").update(fields).eq("id", existing.id);
     setContent((prev) => ({ ...prev, contact: { ...prev.contact, ...fields } }));
   }, []);
+  const updateFooter = useCallback(async (fields: Partial<FooterContent>) => {
+    if (fields.copyrightText !== undefined) {
+      const { data: existing } = await supabase.from("footer_content").select("id").limit(1).single();
+      if (existing) await supabase.from("footer_content").update({ copyright_text: fields.copyrightText }).eq("id", existing.id);
+    }
+    setContent((prev) => ({ ...prev, footer: { ...prev.footer, ...fields } }));
+  }, []);
+
+  const addFooterLink = useCallback(async (link: { label: string; url: string }) => {
+    const maxOrder = content.footer.links.length;
+    const { data } = await supabase.from("footer_links").insert({ label: link.label, url: link.url, sort_order: maxOrder }).select().single();
+    if (data) {
+      setContent((prev) => ({ ...prev, footer: { ...prev.footer, links: [...prev.footer.links, { id: data.id, label: data.label, url: data.url }] } }));
+    }
+  }, [content.footer.links.length]);
+
+  const updateFooterLink = useCallback(async (id: string, fields: Partial<FooterLink>) => {
+    await supabase.from("footer_links").update(fields).eq("id", id);
+    setContent((prev) => ({ ...prev, footer: { ...prev.footer, links: prev.footer.links.map((l) => l.id === id ? { ...l, ...fields } : l) } }));
+  }, []);
+
+  const removeFooterLink = useCallback(async (id: string) => {
+    await supabase.from("footer_links").delete().eq("id", id);
+    setContent((prev) => ({ ...prev, footer: { ...prev.footer, links: prev.footer.links.filter((l) => l.id !== id) } }));
+  }, []);
 
   return (
     <SiteContentContext.Provider value={{
       content, loading, updateConfig, addHeroSlide, updateHeroSlide, removeHeroSlide,
       addArticle, updateArticle, deleteArticle, updateAbout, addSector, updateSector, removeSector,
-      updateValue, updateContact, uploadImage, refreshContent: fetchAll,
+      updateValue, updateContact, updateFooter, addFooterLink, updateFooterLink, removeFooterLink,
+      uploadImage, refreshContent: fetchAll,
     }}>
       {children}
     </SiteContentContext.Provider>
