@@ -27,9 +27,13 @@ const IntroScreen = ({ onFinished }: { onFinished: () => void }) => {
     >
       <img
         src={horizonLogo}
-        alt="Horizon General Trading"
-        className="fade-in w-64 md:w-96 mb-10 object-contain"
+        alt="Horizon"
+        className="fade-in w-56 md:w-80 mb-4 object-contain"
       />
+
+      <h1 className="fade-in font-headline text-lg md:text-xl font-light tracking-[0.2em] text-foreground mb-10 uppercase">
+        General Trading
+      </h1>
 
       <div className="w-48 md:w-64 h-[1px] bg-outline-variant overflow-hidden rounded-full">
         <div className="loading-bar h-full bg-primary rounded-full" />
