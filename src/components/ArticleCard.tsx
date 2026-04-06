@@ -2,35 +2,45 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import type { Article } from "@/data/articles";
 
+const categoryColors: Record<string, string> = {
+  "Logistics & Supply": "from-primary/20 to-primary/5",
+  "Energy Sector": "from-emerald-500/20 to-emerald-500/5",
+  "Corporate Strategy": "from-amber-500/20 to-amber-500/5",
+};
+
 const ArticleCard = ({ article }: { article: Article }) => {
+  const gradient = categoryColors[article.category] || "from-primary/20 to-primary/5";
+
   return (
-    <article className="group ghost-border rounded-xl bg-surface-container-low p-6 md:p-8 flex flex-col gap-4 transition-all duration-300 hover:bg-surface-container">
-      {/* Category */}
-      <span className="font-body text-[10px] tracking-[0.2em] uppercase text-primary/70">
-        {article.category}
-      </span>
+    <article className="group ghost-border rounded-xl bg-surface-container-low overflow-hidden flex flex-col transition-all duration-300 hover:bg-surface-container">
+      {/* Banner */}
+      <div className={`h-32 md:h-36 bg-gradient-to-br ${gradient} relative flex items-end p-5`}>
+        <span className="font-body text-[10px] tracking-[0.2em] uppercase text-foreground/70 bg-background/30 backdrop-blur-sm px-3 py-1 rounded-full">
+          {article.category}
+        </span>
+      </div>
 
-      {/* Title */}
-      <h3 className="font-headline text-xl md:text-2xl font-medium text-foreground leading-snug">
-        {article.title}
-      </h3>
+      {/* Content */}
+      <div className="p-6 md:p-7 flex flex-col gap-3 flex-1">
+        <h3 className="font-headline text-lg md:text-xl font-medium text-foreground leading-snug">
+          {article.title}
+        </h3>
 
-      {/* Excerpt */}
-      <p className="font-body text-sm text-muted-foreground leading-relaxed flex-1">
-        {article.excerpt}
-      </p>
+        <p className="font-body text-sm text-muted-foreground leading-relaxed flex-1">
+          {article.excerpt}
+        </p>
 
-      {/* Read More */}
-      <Link
-        to={`/articles/${article.slug}`}
-        className="inline-flex items-center gap-2 font-body text-xs tracking-wider uppercase text-primary hover:text-primary/80 transition-colors duration-300 mt-2 group/link"
-      >
-        Read More
-        <ArrowRight
-          size={14}
-          className="transition-transform duration-300 group-hover/link:translate-x-1"
-        />
-      </Link>
+        <Link
+          to={`/articles/${article.slug}`}
+          className="inline-flex items-center gap-2 font-body text-xs tracking-wider uppercase text-primary hover:text-primary/80 transition-colors duration-300 mt-2 group/link"
+        >
+          Read More
+          <ArrowRight
+            size={14}
+            className="transition-transform duration-300 group-hover/link:translate-x-1"
+          />
+        </Link>
+      </div>
     </article>
   );
 };
