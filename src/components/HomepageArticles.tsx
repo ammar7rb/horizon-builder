@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import ArticleCard from "@/components/ArticleCard";
-import { articles } from "@/data/articles";
+import { useSiteContent } from "@/contexts/SiteContentContext";
 
 const HomepageArticles = () => {
-  const latestArticles = articles.slice(0, 3);
+  const { content } = useSiteContent();
+  const latestArticles = content.articles.slice(0, 3);
 
   return (
     <section className="py-24 px-6 md:px-10">
