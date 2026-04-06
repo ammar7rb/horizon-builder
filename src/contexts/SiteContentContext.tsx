@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { defaultSiteContent, type SiteContent, type HeroSlide, type ArticleData, type SectorData, type AboutContent, type ContactContent, type SiteConfig } from "@/data/siteContent";
+import { defaultSiteContent, type SiteContent, type HeroSlide, type ArticleData, type SectorData, type AboutContent, type ContactContent, type SiteConfig, type FooterLink, type FooterContent } from "@/data/siteContent";
 
 interface SiteContentContextType {
   content: SiteContent;
