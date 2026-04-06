@@ -173,6 +173,48 @@ export type Database = {
         }
         Relationships: []
       }
+      footer_content: {
+        Row: {
+          copyright_text: string
+          created_at: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          copyright_text?: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          copyright_text?: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      footer_links: {
+        Row: {
+          id: string
+          label: string
+          sort_order: number
+          url: string
+        }
+        Insert: {
+          id?: string
+          label?: string
+          sort_order?: number
+          url?: string
+        }
+        Update: {
+          id?: string
+          label?: string
+          sort_order?: number
+          url?: string
+        }
+        Relationships: []
+      }
       hero_slides: {
         Row: {
           created_at: string
