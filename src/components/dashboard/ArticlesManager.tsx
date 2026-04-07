@@ -135,12 +135,15 @@ const ArticlesManager = () => {
               ))}
               <label className="w-24 h-16 flex items-center justify-center border border-dashed border-outline-variant/40 rounded-lg cursor-pointer text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors text-xs">
                 + Add
-                <input type="file" accept="image/*" className="hidden"
+                <input type="file" accept="image/*" multiple className="hidden"
                   onChange={async (e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    const url = await uploadImage(file, "article-banners");
-                    const updated = [...(editing.bannerImages || []), url];
+                    const files = e.target.files;
+                    if (!files?.length) return;
+                    let updated = [...(editing.bannerImages || [])];
+                    for (const file of Array.from(files)) {
+                      const url = await uploadImage(file, "article-banners");
+                      updated.push(url);
+                    }
                     await updateArticle(editingSlug!, { bannerImages: updated, bannerImage: updated[0] });
                   }} />
               </label>
