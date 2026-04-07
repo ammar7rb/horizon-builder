@@ -5,7 +5,7 @@ import type { ArticleData } from "@/data/siteContent";
 
 const categoryColors: Record<string, string> = {
   "Logistics & Supply": "from-primary/20 to-primary/5",
-  "Energy Sector": "from-emerald-500/20 to-emerald-500/5",
+  "Energy": "from-emerald-500/20 to-emerald-500/5",
   "Corporate Strategy": "from-amber-500/20 to-amber-500/5",
   "Aviation": "from-sky-500/20 to-sky-500/5",
   "Mining": "from-orange-500/20 to-orange-500/5",

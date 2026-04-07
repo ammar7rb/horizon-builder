@@ -42,7 +42,7 @@ The future of trans-continental supply chains isn't just about speed or cost —
   },
   {
     slug: "transitioning-assets-sustainable-energy-commodities",
-    category: "Energy Sector",
+    category: "Energy",
     title: "Transitioning Assets: Sustainable Energy Commodities",
     excerpt:
       "The shift towards renewable energy requires a fundamental rethinking of trading commodities. We analyze the market demand for lithium, cobalt, and beyond.",
