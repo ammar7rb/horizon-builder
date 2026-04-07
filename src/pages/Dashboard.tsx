@@ -23,7 +23,7 @@ const Dashboard = () => {
   }
 
   if (!session) {
-    return <Navigate to="/admin" replace />;
+    return <Navigate to="/hz-secure-login" replace />;
   }
 
   const renderSection = () => {

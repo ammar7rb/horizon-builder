@@ -30,8 +30,8 @@ const App = () => (
               <Route path="/articles/:slug" element={<ArticleDetail />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/admin" element={<AdminLogin />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/hz-secure-login" element={<AdminLogin />} />
+              <Route path="/hz-ctrl-panel" element={<Dashboard />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
