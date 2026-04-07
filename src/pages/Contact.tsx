@@ -28,9 +28,14 @@ const Contact = () => {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
           <div className="md:col-span-2 space-y-8">
             {contact.email && (
-              <div>
-                <h3 className="font-headline text-sm font-medium text-foreground mb-1">Email</h3>
-                <p className="font-body text-sm text-muted-foreground">{contact.email}</p>
+              <div className="flex items-start gap-3">
+                <Mail size={16} className="text-primary/80 mt-0.5 shrink-0" />
+                <div>
+                  <h3 className="font-headline text-sm font-medium text-foreground mb-1">Email</h3>
+                  <p className="font-body text-sm text-muted-foreground">{contact.email}</p>
+                </div>
+              </div>
+            )}
               </div>
             )}
             {contact.office && (
