@@ -10,7 +10,7 @@ const HeroSlidesManager = () => {
     addHeroSlide({ image: "", label: "New Slide" });
   }, [addHeroSlide]);
 
-  const handleImageUpload = useCallback(
+const handleImageUpload = useCallback(
     async (id: string, file: File) => {
       const url = await uploadImage(file, "hero");
       await updateHeroSlide(id, "image", url);
@@ -18,14 +18,31 @@ const HeroSlidesManager = () => {
     [updateHeroSlide, uploadImage]
   );
 
+  const handleBulkUpload = useCallback(
+    async (files: FileList) => {
+      for (const file of Array.from(files)) {
+        const url = await uploadImage(file, "hero");
+        await addHeroSlide({ image: url, label: file.name.replace(/\.[^.]+$/, "") });
+      }
+    },
+    [addHeroSlide, uploadImage]
+  );
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="font-headline text-xl text-foreground">Hero Slides</h2>
-        <button onClick={handleAdd}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-body hover:bg-primary/90 transition-colors">
-          <Plus size={14} /> Add Slide
-        </button>
+        <div className="flex gap-2">
+          <label className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-body hover:bg-primary/90 transition-colors cursor-pointer">
+            <Plus size={14} /> Upload Images
+            <input type="file" accept="image/*" multiple className="hidden"
+              onChange={(e) => e.target.files?.length && handleBulkUpload(e.target.files)} />
+          </label>
+          <button onClick={handleAdd}
+            className="flex items-center gap-2 px-4 py-2 bg-surface-container border border-outline-variant/30 text-foreground rounded-lg text-sm font-body hover:border-primary/50 transition-colors">
+            <Plus size={14} /> Empty Slide
+          </button>
+        </div>
       </div>
 
       <div className="space-y-4">
