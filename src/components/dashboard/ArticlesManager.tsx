@@ -4,7 +4,7 @@ import { Plus, Trash2, Edit, ArrowLeft } from "lucide-react";
 import ArticleEditor from "./ArticleEditor";
 import type { ArticleData } from "@/data/siteContent";
 
-const categories = ["Logistics & Supply", "Energy", "Corporate Strategy", "Aviation", "Mining", "Telecommunications"];
+const categories = ["Logistics & Supply", "Refineries", "Corporate Strategy", "Aviation", "Drill-Rigs", "Telecommunications"];
 
 const generateSlug = (title: string) =>
   title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
