@@ -59,6 +59,14 @@ export interface SiteConfig {
   logoText: string;
   logoImage: string;
   favicon: string;
+  heroTagline: string;
+  heroTitle: string;
+  heroTitleHighlight: string;
+  heroDescription: string;
+  heroButton1Text: string;
+  heroButton1Link: string;
+  heroButton2Text: string;
+  heroButton2Link: string;
 }
 
 export interface SiteContent {
@@ -76,6 +84,14 @@ export const defaultSiteContent: SiteContent = {
     logoText: "Horizon General Trading",
     logoImage: "",
     favicon: "",
+    heroTagline: "Global Commerce Reimagined",
+    heroTitle: "Industrial Stability.",
+    heroTitleHighlight: "Ethereal Motion.",
+    heroDescription: "Navigating the complexities of international trade with precision, transparency, and a relentless focus on logistical excellence.",
+    heroButton1Text: "Explore Ventures",
+    heroButton1Link: "/articles",
+    heroButton2Text: "Our Portfolio",
+    heroButton2Link: "/about",
   },
   heroSlides: [],
   articles: [],
