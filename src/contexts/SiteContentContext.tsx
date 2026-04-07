@@ -58,6 +58,14 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
           logoText: configRes.data.logo_text,
           logoImage: configRes.data.logo_image,
           favicon: configRes.data.favicon,
+          heroTagline: (configRes.data as any).hero_tagline ?? defaultSiteContent.config.heroTagline,
+          heroTitle: (configRes.data as any).hero_title ?? defaultSiteContent.config.heroTitle,
+          heroTitleHighlight: (configRes.data as any).hero_title_highlight ?? defaultSiteContent.config.heroTitleHighlight,
+          heroDescription: (configRes.data as any).hero_description ?? defaultSiteContent.config.heroDescription,
+          heroButton1Text: (configRes.data as any).hero_button1_text ?? defaultSiteContent.config.heroButton1Text,
+          heroButton1Link: (configRes.data as any).hero_button1_link ?? defaultSiteContent.config.heroButton1Link,
+          heroButton2Text: (configRes.data as any).hero_button2_text ?? defaultSiteContent.config.heroButton2Text,
+          heroButton2Link: (configRes.data as any).hero_button2_link ?? defaultSiteContent.config.heroButton2Link,
         } : defaultSiteContent.config,
         heroSlides: slidesRes.data?.map((s) => ({
           id: s.id,
@@ -140,6 +148,14 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
     if (fields.logoText !== undefined) mapped.logo_text = fields.logoText;
     if (fields.logoImage !== undefined) mapped.logo_image = fields.logoImage;
     if (fields.favicon !== undefined) mapped.favicon = fields.favicon;
+    if (fields.heroTagline !== undefined) mapped.hero_tagline = fields.heroTagline;
+    if (fields.heroTitle !== undefined) mapped.hero_title = fields.heroTitle;
+    if (fields.heroTitleHighlight !== undefined) mapped.hero_title_highlight = fields.heroTitleHighlight;
+    if (fields.heroDescription !== undefined) mapped.hero_description = fields.heroDescription;
+    if (fields.heroButton1Text !== undefined) mapped.hero_button1_text = fields.heroButton1Text;
+    if (fields.heroButton1Link !== undefined) mapped.hero_button1_link = fields.heroButton1Link;
+    if (fields.heroButton2Text !== undefined) mapped.hero_button2_text = fields.heroButton2Text;
+    if (fields.heroButton2Link !== undefined) mapped.hero_button2_link = fields.heroButton2Link;
     const { data: existing } = await supabase.from("site_config").select("id").limit(1).single();
     if (existing) {
       await supabase.from("site_config").update(mapped).eq("id", existing.id);
