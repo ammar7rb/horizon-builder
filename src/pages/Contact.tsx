@@ -36,8 +36,6 @@ const Contact = () => {
                 </div>
               </div>
             )}
-              </div>
-            )}
             {contact.office && (
               <div>
                 <h3 className="font-headline text-sm font-medium text-foreground mb-1">Office</h3>
