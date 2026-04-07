@@ -246,6 +246,14 @@ export type Database = {
         Row: {
           created_at: string
           favicon: string
+          hero_button1_link: string
+          hero_button1_text: string
+          hero_button2_link: string
+          hero_button2_text: string
+          hero_description: string
+          hero_tagline: string
+          hero_title: string
+          hero_title_highlight: string
           id: string
           logo_image: string
           logo_text: string
@@ -255,6 +263,14 @@ export type Database = {
         Insert: {
           created_at?: string
           favicon?: string
+          hero_button1_link?: string
+          hero_button1_text?: string
+          hero_button2_link?: string
+          hero_button2_text?: string
+          hero_description?: string
+          hero_tagline?: string
+          hero_title?: string
+          hero_title_highlight?: string
           id?: string
           logo_image?: string
           logo_text?: string
@@ -264,6 +280,14 @@ export type Database = {
         Update: {
           created_at?: string
           favicon?: string
+          hero_button1_link?: string
+          hero_button1_text?: string
+          hero_button2_link?: string
+          hero_button2_text?: string
+          hero_description?: string
+          hero_tagline?: string
+          hero_title?: string
+          hero_title_highlight?: string
           id?: string
           logo_image?: string
           logo_text?: string
