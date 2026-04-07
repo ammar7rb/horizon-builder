@@ -27,27 +27,24 @@ const Contact = () => {
       <section className="px-6 md:px-10 max-w-4xl mx-auto pb-24">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
           <div className="md:col-span-2 space-y-8">
-            <div className="flex items-start gap-3">
-              <Mail size={16} className="text-primary/80 mt-0.5 shrink-0" />
+            {contact.email && (
               <div>
                 <h3 className="font-headline text-sm font-medium text-foreground mb-1">Email</h3>
                 <p className="font-body text-sm text-muted-foreground">{contact.email}</p>
               </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <MapPin size={16} className="text-primary/80 mt-0.5 shrink-0" />
+            )}
+            {contact.office && (
               <div>
                 <h3 className="font-headline text-sm font-medium text-foreground mb-1">Office</h3>
                 <p className="font-body text-sm text-muted-foreground">{contact.office}</p>
               </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <Clock size={16} className="text-primary/80 mt-0.5 shrink-0" />
+            )}
+            {contact.availability && (
               <div>
                 <h3 className="font-headline text-sm font-medium text-foreground mb-1">Availability</h3>
                 <p className="font-body text-sm text-muted-foreground">{contact.availability}</p>
               </div>
-            </div>
+            )}
           </div>
 
           <form onSubmit={handleSubmit} className="md:col-span-3 space-y-5">
