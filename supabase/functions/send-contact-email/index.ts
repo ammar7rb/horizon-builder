@@ -44,7 +44,7 @@ Deno.serve(async (req) => {
         'X-Connection-Api-Key': RESEND_API_KEY,
       },
       body: JSON.stringify({
-        from: 'Contact Form <onboarding@resend.dev>',
+        from: 'Horizon General Trading <manager@horizongeneraltrading.com>',
         to: [RECIPIENT_EMAIL],
         subject: `New Contact: ${name}`,
         reply_to: email,
