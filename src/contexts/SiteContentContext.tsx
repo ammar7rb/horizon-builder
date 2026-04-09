@@ -143,7 +143,12 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const updateConfig = useCallback(async (fields: Partial<SiteConfig>) => {
-    const mapped: Record<string, string> = {};
+    const mapped: Partial<{
+      logo_type: string; logo_text: string; logo_image: string; favicon: string;
+      hero_tagline: string; hero_title: string; hero_title_highlight: string;
+      hero_description: string; hero_button1_text: string; hero_button1_link: string;
+      hero_button2_text: string; hero_button2_link: string;
+    }> = {};
     if (fields.logoType !== undefined) mapped.logo_type = fields.logoType;
     if (fields.logoText !== undefined) mapped.logo_text = fields.logoText;
     if (fields.logoImage !== undefined) mapped.logo_image = fields.logoImage;
@@ -172,7 +177,7 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
   }, [content.heroSlides.length]);
 
   const updateHeroSlide = useCallback(async (id: string, field: "label" | "image", value: string) => {
-    await supabase.from("hero_slides").update({ [field]: value }).eq("id", id);
+    await supabase.from("hero_slides").update(field === "label" ? { label: value } : { image: value }).eq("id", id);
     setContent((prev) => ({ ...prev, heroSlides: prev.heroSlides.map((s) => s.id === id ? { ...s, [field]: value } : s) }));
   }, []);
 
@@ -193,7 +198,10 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const updateArticle = useCallback(async (slug: string, fields: Partial<ArticleData>) => {
-    const mapped: Record<string, unknown> = {};
+    const mapped: Partial<{
+      title: string; slug: string; category: string; excerpt: string; date: string;
+      read_time: string; banner_image: string; banner_images: string[]; content: string;
+    }> = {};
     if (fields.title !== undefined) mapped.title = fields.title;
     if (fields.slug !== undefined) mapped.slug = fields.slug;
     if (fields.category !== undefined) mapped.category = fields.category;
@@ -216,7 +224,10 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const updateAbout = useCallback(async (fields: Partial<AboutContent>) => {
-    const mapped: Record<string, string> = {};
+    const mapped: Partial<{
+      tagline: string; title: string; description: string;
+      mission_title: string; mission_text: string; mission_text2: string;
+    }> = {};
     if (fields.tagline !== undefined) mapped.tagline = fields.tagline;
     if (fields.title !== undefined) mapped.title = fields.title;
     if (fields.description !== undefined) mapped.description = fields.description;
