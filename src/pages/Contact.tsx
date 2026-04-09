@@ -1,17 +1,40 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Mail, MapPin, Clock } from "lucide-react";
+import { Mail } from "lucide-react";
 import { useSiteContent } from "@/contexts/SiteContentContext";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [sending, setSending] = useState(false);
   const { content } = useSiteContent();
   const contact = content.contact;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setForm({ name: "", email: "", subject: "", message: "" });
+    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+    setSending(true);
+    try {
+      const { error } = await supabase.functions.invoke("send-contact-email", {
+        body: {
+          name: form.name.trim(),
+          email: form.email.trim(),
+          message: `${form.subject ? `[${form.subject.trim()}] ` : ""}${form.message.trim()}`,
+        },
+      });
+      if (error) throw error;
+      toast.success("Message sent successfully!");
+      setForm({ name: "", email: "", subject: "", message: "" });
+    } catch {
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -61,8 +84,8 @@ const Contact = () => {
               className="w-full h-10 px-4 bg-surface-container border border-outline-variant/30 rounded-xl font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors" />
             <textarea placeholder="Your Message" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} required rows={5}
               className="w-full px-4 py-3 bg-surface-container border border-outline-variant/30 rounded-xl font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none" />
-            <button type="submit" className="h-11 px-8 bg-primary text-primary-foreground font-body text-xs tracking-wider uppercase rounded-xl hover:bg-primary/90 transition-all duration-300">
-              Send Message
+            <button type="submit" disabled={sending} className="h-11 px-8 bg-primary text-primary-foreground font-body text-xs tracking-wider uppercase rounded-xl hover:bg-primary/90 transition-all duration-300 disabled:opacity-50">
+              {sending ? "Sending…" : "Send Message"}
             </button>
           </form>
         </div>
