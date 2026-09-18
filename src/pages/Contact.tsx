@@ -1,10 +1,27 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Mail } from "lucide-react";
+import { Phone } from "lucide-react";
 import { useSiteContent } from "@/contexts/SiteContentContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+
+const CONTACT_PHONE_DISPLAY = "+1 929 762 2246";
+const CONTACT_PHONE_E164 = "+19297622246";
+
+const WhatsAppIcon = ({ className }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    fill="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M12.04 2a9.84 9.84 0 0 0-8.34 15.08L2 22l5.02-1.66A9.93 9.93 0 0 0 12.04 22c5.45 0 9.88-4.43 9.88-9.88 0-2.64-1.03-5.13-2.9-7A9.8 9.8 0 0 0 12.04 2Zm0 18.15c-1.55 0-3.07-.42-4.39-1.2l-.31-.19-2.98.99 1-2.9-.2-.3a8.03 8.03 0 0 1-1.23-4.43C3.93 7.65 7.57 4 12.05 4a8.06 8.06 0 0 1 5.74 2.39 8.06 8.06 0 0 1 2.38 5.75c-.01 4.46-3.65 8.11-8.13 8.11Zm4.45-6.08c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.25-.63.79-.77.95-.14.16-.28.18-.52.06-.24-.12-1.03-.38-1.96-1.21-.72-.65-1.21-1.44-1.35-1.69-.14-.24-.02-.37.11-.49.11-.11.24-.28.36-.43.12-.14.16-.24.24-.41.08-.16.04-.31-.02-.43-.06-.12-.55-1.32-.75-1.81-.2-.47-.4-.41-.55-.42h-.47c-.16 0-.43.06-.65.31-.22.24-.85.83-.85 2.03 0 1.2.87 2.36.99 2.52.12.16 1.72 2.62 4.16 3.68.58.25 1.03.4 1.39.51.58.19 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.47-.28Z"
+    />
+  </svg>
+);
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
@@ -50,15 +67,35 @@ const Contact = () => {
       <section className="px-6 md:px-10 max-w-4xl mx-auto pb-24">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
           <div className="md:col-span-2 space-y-8">
-            {contact.email && (
-              <div className="flex items-start gap-3">
-                <Mail size={16} className="text-primary/80 mt-0.5 shrink-0" />
-                <div>
-                  <h3 className="font-headline text-sm font-medium text-foreground mb-1">Email</h3>
-                  <p className="font-body text-sm text-muted-foreground">{contact.email}</p>
-                </div>
+            <div className="flex items-start gap-3">
+              <div className="flex items-center gap-2 pt-0.5 text-primary/80">
+                <a
+                  aria-label={`Call ${CONTACT_PHONE_DISPLAY}`}
+                  className="rounded-md transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+                  href={`tel:${CONTACT_PHONE_E164}`}
+                >
+                  <Phone aria-hidden="true" size={16} />
+                </a>
+                <a
+                  aria-label={`Chat on WhatsApp with ${CONTACT_PHONE_DISPLAY}`}
+                  className="rounded-md transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+                  href={`https://wa.me/${CONTACT_PHONE_E164.slice(1)}`}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <WhatsAppIcon className="h-4 w-4" />
+                </a>
               </div>
-            )}
+              <div>
+                <h3 className="font-headline text-sm font-medium text-foreground mb-1">Phone &amp; WhatsApp</h3>
+                <a
+                  className="font-body text-sm text-muted-foreground transition-colors hover:text-primary"
+                  href={`tel:${CONTACT_PHONE_E164}`}
+                >
+                  {CONTACT_PHONE_DISPLAY}
+                </a>
+              </div>
+            </div>
             {contact.office && (
               <div>
                 <h3 className="font-headline text-sm font-medium text-foreground mb-1">Office</h3>
