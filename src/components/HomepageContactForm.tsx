@@ -1,7 +1,13 @@
 import { useState } from "react";
-import { Mail, Send } from "lucide-react";
+import { Phone, Send } from "lucide-react";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { useSiteContent } from "@/contexts/SiteContentContext";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  CONTACT_PHONE_DISPLAY,
+  CONTACT_PHONE_LINK,
+  CONTACT_WHATSAPP_LINK,
+} from "@/lib/contactDetails";
 import { toast } from "sonner";
 
 const HomepageContactForm = () => {
@@ -86,6 +92,40 @@ const HomepageContactForm = () => {
               {sending ? "Sending…" : "Send Message"}
             </button>
           </form>
+
+          <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-white/10 pt-6">
+            <div>
+              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-primary/70 mb-1">
+                Prefer to talk directly?
+              </p>
+              <a
+                href={CONTACT_PHONE_LINK}
+                className="font-headline text-base text-foreground transition-colors hover:text-primary"
+              >
+                {CONTACT_PHONE_DISPLAY}
+              </a>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <a
+                aria-label={`Call ${CONTACT_PHONE_DISPLAY}`}
+                href={CONTACT_PHONE_LINK}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-primary/30 text-primary transition-all hover:border-primary hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+              >
+                <Phone aria-hidden="true" size={16} />
+              </a>
+              <a
+                aria-label={`Chat on WhatsApp with ${CONTACT_PHONE_DISPLAY}`}
+                href={CONTACT_WHATSAPP_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-primary/30 px-4 font-body text-xs font-medium tracking-wider uppercase text-primary transition-all hover:border-primary hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+              >
+                <WhatsAppIcon className="h-4 w-4" />
+                WhatsApp
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>

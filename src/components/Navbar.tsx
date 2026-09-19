@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useSiteContent } from "@/contexts/SiteContentContext";
+import { CONTACT_WHATSAPP_LINK } from "@/lib/contactDetails";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -55,9 +56,12 @@ const Navbar = () => {
           ))}
         </div>
 
-        <Link to="/contact"
+        <a
+          href={CONTACT_WHATSAPP_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
           className="hidden md:inline-flex items-center justify-center h-9 px-5 text-xs font-medium tracking-wider uppercase border border-primary/40 text-primary rounded-xl hover:bg-primary/10 transition-all duration-300"
-        >Connect</Link>
+        >WhatsApp</a>
 
         <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden text-foreground p-1" aria-label="Toggle menu">
           {mobileOpen ? <X size={20} /> : <Menu size={20} />}
@@ -73,9 +77,12 @@ const Navbar = () => {
               }`}
             >{link.label}</Link>
           ))}
-          <Link to="/contact"
+          <a
+            href={CONTACT_WHATSAPP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center h-9 px-5 text-xs font-medium tracking-wider uppercase border border-primary/40 text-primary rounded-xl hover:bg-primary/10 transition-all duration-300 mt-2"
-          >Connect</Link>
+          >WhatsApp</a>
         </div>
       )}
     </nav>
